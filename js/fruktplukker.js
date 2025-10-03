@@ -2,6 +2,16 @@
 const button = document.createElement("button");
 button.innerHTML = "Generer frukt";
 document.body.appendChild(button);
+
+// Legg til et element for å vise antall epler
+const counterDisplay = document.createElement("div");
+counterDisplay.style.fontSize = "1.5em";
+counterDisplay.style.margin = "10px";
+counterDisplay.innerHTML = "Antall epler: 0";
+document.body.appendChild(counterDisplay);
+
+let appleCount = 0;
+
 // Når knappen klikkes, generer en ny frukt
 button.addEventListener("click", nyFrukt)
 
@@ -14,6 +24,9 @@ function nyFrukt()
     frukt.style.left = Math.random() * window.innerWidth + 'px'; // Plasser frukten på en tilfeldig x-posisjon
     frukt.style.top = Math.random() * window.innerHeight + 'px'; // Plasser frukten på en tilfeldig y-posisjon
     document.body.appendChild(frukt);
+
+    appleCount++;
+    counterDisplay.innerHTML = "Antall epler: " + appleCount;
  
     // Når frukten klikkes, fjern den fra skjermen
     frukt.addEventListener("click", fjernFrukt)
@@ -24,5 +37,6 @@ Dette betyr at vi sender informasjon om hendelsen (event) som trigget funksjonen
 function fjernFrukt(e)
 {
     document.body.removeChild(e.target); 
-    //e.target er det elementet som trigget hendelsen, det vil si elementet vi klikket på for å aktivere funksjonen.
+    appleCount--; // Decrement the count
+    counterDisplay.innerHTML = "Antall epler: " + appleCount;
 }
