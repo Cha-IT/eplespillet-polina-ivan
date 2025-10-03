@@ -1,53 +1,77 @@
-const fruits = ["🍎", "🍌", "🍒", "🍇", "🍉"];
-// Først, opprett en knapp for å generere fruktene
-const button = document.createElement("button");
-button.innerHTML = "Play";
-document.body.appendChild(button);
+const fruits = ["🍎","🍌","🍒","🍇","🍉"]; // easy to extend
+      const reelsEl = [document.getElementById('r1'), document.getElementById('r2'), document.getElementById('r3')];
+      const statusEl = document.getElementById('status');
+      const btn = document.getElementById('playBtn');
+      const confettiEl = document.getElementById('confetti');
 
-const squares = [];
-for (let i = 0; i < 3; i++) {
-    const square = document.createElement("div");
-    square.style.display = "inline-block";
-    square.style.fontSize = "3em";
-    square.style.width = "80px";
-    square.style.height = "80px";
-    square.style.margin = "10px";
-    square.style.textAlign = "center";
-    square.style.verticalAlign = "middle";
-    square.style.border = "2px solid #333";
-    square.style.background = "#fff";
-    squares.push(square);
-    document.body.appendChild(square);
-}
+      function randomFruit(){ return fruits[Math.floor(Math.random()*fruits.length)]; }
 
-const resultDisplay = document.createElement("div");
-resultDisplay.style.fontSize = "1.5em";
-resultDisplay.style.marginTop = "20px";
-document.body.appendChild(resultDisplay);
+      function setReel(reelEl, emoji){
+        reelEl.querySelector('.cell')?.remove();
+        const s = document.createElement('span');
+        s.className = 'cell';
+        s.textContent = emoji;
+        reelEl.appendChild(s);
+        reelEl.appendChild(reelEl.querySelector('.gloss') || Object.assign(document.createElement('div'),{className:'gloss'}));
+        // micro spin flair
+        reelEl.classList.remove('spin');
+        void reelEl.offsetWidth; // reflow to restart animation
+        reelEl.classList.add('spin');
+      }
 
-// Når knappen klikkes, generer en ny frukt
-button.addEventListener("click", spin);
+      function spinOnce(){
+        btn.disabled = true; statusEl.className = 'status'; statusEl.textContent = 'Spinning…';
+        const result = [];
 
-function spin() {
-    const result = [];
-    for (let i = 0; i < 3; i++) {
-        const fruit = fruits[Math.floor(Math.random() * fruits.length)];
-        squares[i].innerHTML = fruit;
-        result.push(fruit);
-    }
-    if (result[0] === result[1] && result[1] === result[2]) {
-        resultDisplay.innerHTML = "You won! 🎉";
-        resultDisplay.style.color = "green";
-    } else {
-        resultDisplay.innerHTML = "You lost! 😢";
-        resultDisplay.style.color = "red";
-    }
-}
+        // staggered reveal for juice
+        const delay = [0, 120, 240];
+        reelsEl.forEach((reel, i)=>{
+          setTimeout(()=>{
+            const f = randomFruit();
+            setReel(reel, f);
+            result[i] = f;
+            if(i===2){ // last one landed
+              setTimeout(()=> finish(result), 60);
+            }
+          }, delay[i]);
+        });
+      }
 
-/* Legg merke til bokstaven e inne i parentesen på linja under. 
-Dette betyr at vi sender informasjon om hendelsen (event) som trigget funksjonen inn i funksjonen. e kalles hendelses-objektet */
-function fjernFrukt(e)
-{
-    document.body.removeChild(e.target); 
-    //e.target er det elementet som trigget hendelsen, det vil si elementet vi klikket på for å aktivere funksjonen.
-}
+      function finish(result){
+        const win = result[0]===result[1] && result[1]===result[2];
+        if(win){
+          statusEl.className = 'status win';
+          statusEl.textContent = 'You won! 🎉';
+          burstConfetti();
+        } else {
+          statusEl.className = 'status lose';
+          statusEl.textContent = 'You lost! 😢';
+        }
+        btn.disabled = false;
+      }
+
+      function burstConfetti(){
+        const pieces = 26;
+        for(let i=0;i<pieces;i++){
+          const sp = document.createElement('span');
+          const left = Math.random()*100;
+          const dur = 800 + Math.random()*900; // 0.8–1.7s
+          const size = 8 + Math.random()*10;
+          sp.style.left = left+"vw";
+          sp.style.top = "-20px";
+          sp.style.width = size+"px";
+          sp.style.height = (size*1.3)+"px";
+          sp.style.background = `linear-gradient(135deg, hsl(${Math.random()*360} 95% 62%), hsl(${Math.random()*360} 95% 72%))`;
+          sp.style.transform = `translateY(0) rotate(${Math.random()*180}deg)`;
+          sp.style.animationDuration = dur+"ms";
+          sp.style.opacity = 1;
+          confettiEl.appendChild(sp);
+          setTimeout(()=> sp.remove(), dur+200);
+        }
+      }
+
+      // events
+      btn.addEventListener('click', ()=> spinOnce());
+      window.addEventListener('keydown', (e)=>{
+        if((e.code==='Space' || e.code==='Enter') && !btn.disabled){ e.preventDefault(); spinOnce(); }
+      });

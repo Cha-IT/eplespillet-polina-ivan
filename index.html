@@ -1,54 +1,141 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <title>Fruktplukker</title>
-        <!-- Required meta tags -->
-        <meta charset="utf-8" />
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, shrink-to-fit=no"
-        />
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fruktplukker — Modern</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root{
+        --bg-1:#0f1020; /* deep space */
+        --bg-2:#0b122b; /* night indigo */
+        --accent:#7c5cff; /* iris */
+        --accent-2:#24d1ff; /* aqua */
+        --card:rgba(255,255,255,.06);
+        --card-stroke:rgba(255,255,255,.12);
+        --text:rgba(255,255,255,.92);
+        --subtext:rgba(255,255,255,.65);
+        --success:#2ecc71;
+        --danger:#ff5c8a;
+        --shadow:0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+      }
 
-        <!-- IMPORTERER BOOTSTRAP CSS v5.2.1 -->
-        <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-            rel="stylesheet"
-            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous"
-        />
-        <!-- IMPORTERER ANIMATE.CSS-->
-        <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-      />
-    </head>
+      /* ===== Page ===== */
+      html,body{height:100%;}
+      body{
+        margin:0; color:var(--text); font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
+        background: radial-gradient(1200px 800px at 10% 10%, rgba(124,92,255,.25), transparent 60%),
+                    radial-gradient(900px 600px at 90% 20%, rgba(36,209,255,.20), transparent 55%),
+                    linear-gradient(180deg, var(--bg-1), var(--bg-2));
+        display:grid; place-items:center; padding:24px;
+      }
 
-    <body>
-        <header>
-            <!-- HEADER, OVERSKRIFT, EVT NAVIGASJON/MENY LEGGES INN HER -->
-        </header>
-        <main>
+      .wrap{width:min(980px, 100%);}
+      .header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:24px;}
+      .brand{display:flex; align-items:center; gap:14px;}
+      .logo{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 6px 20px rgba(124,92,255,.4);}
+      .title{font-weight:800; letter-spacing:.3px; font-size:clamp(20px, 2.6vw, 28px)}
+      .subtitle{color:var(--subtext); font-size:14px}
 
-            <!-- HOVEDINNHOLD-->
+      /* ===== Card ===== */
+      .card{
+        background:var(--card); border:1px solid var(--card-stroke); border-radius:22px; box-shadow:var(--shadow);
+        padding:28px; backdrop-filter: blur(10px);
+      }
 
-        </main>
-        <footer>
-            <!-- FOOTER, INFORMASJON OM HVEM SOM HAR LAGET NETTSIDEN LEGES HER -->
-        </footer>
+      .game{
+        display:grid; gap:22px; justify-items:center;
+      }
 
-        <!-- SKRIPTET TIL FRUKTPLUKKER-SPILLET ER LENKET HER -->
-        <script src="./js/fruktplukker.js"></script>
+      .reels{
+        display:grid; grid-template-columns:repeat(3, 110px); gap:14px;
+        padding:14px; border-radius:18px; background:rgba(255,255,255,.04); border:1px solid var(--card-stroke);
+      }
 
-        <!-- JAVASCRIPT-BIBLIOTEKER SOM HØRER TIL BOOTSTRAP -->
-        <script
-            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-            crossorigin="anonymous"
-        ></script>
-        <script
-            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-            crossorigin="anonymous"
-        ></script>
-    </body>
+      .reel{
+        width:110px; height:110px; display:grid; place-items:center; font-size:56px; border-radius:16px;
+        background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+        border:1px solid var(--card-stroke); box-shadow:inset 0 6px 18px rgba(0,0,0,.35), 0 6px 18px rgba(0,0,0,.25);
+        position:relative; overflow:hidden;
+      }
+
+      .gloss{position:absolute; inset:0; background:linear-gradient(120deg, rgba(255,255,255,.18), transparent 30%);
+        mix-blend-mode:soft-light; pointer-events:none;}
+
+      .reel.spin{animation:pop .18s ease-out, pulse 1s ease-in-out 0s 1;}
+      @keyframes pop{from{transform:scale(.96); filter:blur(.2px)} to{transform:scale(1)} }
+      @keyframes pulse{0%{box-shadow:inset 0 6px 18px rgba(0,0,0,.35),0 6px 18px rgba(0,0,0,.25);}50%{box-shadow:inset 0 10px 22px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.35);}100%{box-shadow:inset 0 6px 18px rgba(0,0,0,.35),0 6px 18px rgba(0,0,0,.25);} }
+
+      .controls{display:flex; align-items:center; gap:14px}
+
+      .btn{
+        --h:54px; height:var(--h); padding:0 22px; border-radius:16px; border:1px solid transparent; cursor:pointer;
+        background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#0b0f1a; font-weight:800; letter-spacing:.3px;
+        box-shadow:0 10px 30px rgba(124,92,255,.45); transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
+      }
+      .btn:hover{transform:translateY(-1px); box-shadow:0 16px 34px rgba(124,92,255,.55);}
+      .btn:active{transform:translateY(0); filter:brightness(.95)}
+      .btn[disabled]{opacity:.6; cursor:not-allowed; filter:saturate(.5);}
+
+      .status{
+        min-height:38px; padding:10px 14px; border-radius:12px; font-weight:600; letter-spacing:.2px;
+        background:rgba(255,255,255,.05); border:1px solid var(--card-stroke); color:var(--subtext);
+      }
+      .status.win{color:#0f1; background:rgba(0,255,140,.08); border-color:rgba(0,255,140,.25)}
+      .status.lose{color:#ff658b; background:rgba(255,101,139,.06); border-color:rgba(255,101,139,.22)}
+
+      .hint{font-size:12px; color:var(--subtext); text-align:center}
+
+      /* Confetti */
+      .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden}
+      .confetti span{position:absolute; width:10px; height:14px; border-radius:2px; opacity:0; animation:fall linear forwards;}
+      @keyframes fall{to{transform:translateY(110vh) rotate(540deg); opacity:0}}
+
+      /* Accessibility / Reduced motion */
+      @media (prefers-reduced-motion: reduce){
+        *{animation:none !important; transition:none !important}
+      }
+
+      /* Responsive */
+      @media (max-width:520px){
+        .reels{grid-template-columns:repeat(3, min(28vw, 104px));}
+        .reel{width:min(28vw,104px); height:min(28vw,104px); font-size:clamp(38px, 10vw, 56px)}
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="header">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <div class="title">Fruktplukker</div>
+            <div class="subtitle">Match 3 fruits — win the glow ✨</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="game" role="application" aria-label="Fruit slot game">
+          <div class="reels" aria-live="polite" aria-atomic="true">
+            <div class="reel" id="r1"><span class="cell">🍎</span><div class="gloss"></div></div>
+            <div class="reel" id="r2"><span class="cell">🍌</span><div class="gloss"></div></div>
+            <div class="reel" id="r3"><span class="cell">🍒</span><div class="gloss"></div></div>
+          </div>
+
+          <div class="controls">
+            <button id="playBtn" class="btn" aria-label="Play (Space)">Play</button>
+            <div id="status" class="status" role="status" aria-live="polite">Press <b>Play</b> or hit <b>Space</b>.</div>
+          </div>
+
+          <div class="hint">Tip: match all three fruits to win. (Enter/Space to play)</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="confetti" class="confetti" aria-hidden="true"></div>
+
+    <script src="js/fruktplukker.js"></script>
+  </body>
 </html>
