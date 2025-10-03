@@ -8,20 +8,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
       :root{
-        --bg-1:#0f1020; /* deep space */
-        --bg-2:#0b122b; /* night indigo */
-        --accent:#7c5cff; /* iris */
-        --accent-2:#24d1ff; /* aqua */
-        --card:rgba(255,255,255,.06);
-        --card-stroke:rgba(255,255,255,.12);
-        --text:rgba(255,255,255,.92);
-        --subtext:rgba(255,255,255,.65);
-        --success:#2ecc71;
-        --danger:#ff5c8a;
+        --bg-1:#0f1020; --bg-2:#0b122b;
+        --accent:#7c5cff; --accent-2:#24d1ff;
+        --card:rgba(255,255,255,.06); --card-stroke:rgba(255,255,255,.12);
+        --text:rgba(255,255,255,.92); --subtext:rgba(255,255,255,.65);
+        --success:#20d37d; --danger:#ff658b;
         --shadow:0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
       }
-
-      /* ===== Page ===== */
       html,body{height:100%;}
       body{
         margin:0; color:var(--text); font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;
@@ -30,74 +23,79 @@
                     linear-gradient(180deg, var(--bg-1), var(--bg-2));
         display:grid; place-items:center; padding:24px;
       }
-
-      .wrap{width:min(980px, 100%);}
-      .header{display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:24px;}
-      .brand{display:flex; align-items:center; gap:14px;}
+      .wrap{width:min(1000px, 100%);}
+      .header{display:flex; align-items:center; gap:14px; margin-bottom:24px;}
       .logo{width:36px; height:36px; border-radius:10px; background:linear-gradient(135deg,var(--accent),var(--accent-2)); box-shadow:0 6px 20px rgba(124,92,255,.4);}
-      .title{font-weight:800; letter-spacing:.3px; font-size:clamp(20px, 2.6vw, 28px)}
+      .title{font-weight:800; font-size:24px}
       .subtitle{color:var(--subtext); font-size:14px}
 
-      /* ===== Card ===== */
-      .card{
-        background:var(--card); border:1px solid var(--card-stroke); border-radius:22px; box-shadow:var(--shadow);
-        padding:28px; backdrop-filter: blur(10px);
-      }
-
-      .game{
-        display:grid; gap:22px; justify-items:center;
-      }
-
-      .reels{
-        display:grid; grid-template-columns:repeat(3, 110px); gap:14px;
-        padding:14px; border-radius:18px; background:rgba(255,255,255,.04); border:1px solid var(--card-stroke);
-      }
-
+      .card{background:var(--card); border:1px solid var(--card-stroke); border-radius:22px; box-shadow:var(--shadow); padding:28px; backdrop-filter: blur(10px);}
+      .game{display:grid; gap:22px; justify-items:center;}
+      .reels{display:grid; grid-template-columns:repeat(3, 110px); gap:14px; padding:14px; border-radius:18px; background:rgba(255,255,255,.04); border:1px solid var(--card-stroke);}
       .reel{
         width:110px; height:110px; display:grid; place-items:center; font-size:56px; border-radius:16px;
         background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
         border:1px solid var(--card-stroke); box-shadow:inset 0 6px 18px rgba(0,0,0,.35), 0 6px 18px rgba(0,0,0,.25);
         position:relative; overflow:hidden;
       }
-
-      .gloss{position:absolute; inset:0; background:linear-gradient(120deg, rgba(255,255,255,.18), transparent 30%);
-        mix-blend-mode:soft-light; pointer-events:none;}
-
+      .gloss{position:absolute; inset:0; background:linear-gradient(120deg, rgba(255,255,255,.18), transparent 30%); mix-blend-mode:soft-light; pointer-events:none;}
       .reel.spin{animation:pop .18s ease-out, pulse 1s ease-in-out 0s 1;}
       @keyframes pop{from{transform:scale(.96); filter:blur(.2px)} to{transform:scale(1)} }
       @keyframes pulse{0%{box-shadow:inset 0 6px 18px rgba(0,0,0,.35),0 6px 18px rgba(0,0,0,.25);}50%{box-shadow:inset 0 10px 22px rgba(0,0,0,.45),0 8px 24px rgba(0,0,0,.35);}100%{box-shadow:inset 0 6px 18px rgba(0,0,0,.35),0 6px 18px rgba(0,0,0,.25);} }
 
-      .controls{display:flex; align-items:center; gap:14px}
-
+      .controls{display:flex; align-items:center; gap:14px; flex-wrap:wrap; justify-content:center}
       .btn{
-        --h:54px; height:var(--h); padding:0 22px; border-radius:16px; border:1px solid transparent; cursor:pointer;
-        background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#0b0f1a; font-weight:800; letter-spacing:.3px;
+        --h:48px; height:var(--h); padding:0 18px; border-radius:16px; border:1px solid transparent; cursor:pointer;
+        background:linear-gradient(135deg,var(--accent),var(--accent-2)); color:#0b0f1a; font-weight:800; letter-spacing:.2px;
         box-shadow:0 10px 30px rgba(124,92,255,.45); transition:transform .12s ease, box-shadow .12s ease, filter .12s ease;
       }
       .btn:hover{transform:translateY(-1px); box-shadow:0 16px 34px rgba(124,92,255,.55);}
       .btn:active{transform:translateY(0); filter:brightness(.95)}
       .btn[disabled]{opacity:.6; cursor:not-allowed; filter:saturate(.5);}
+      .btn.ghost{background:transparent; color:var(--text); border-color:var(--card-stroke); box-shadow:none; height:40px; padding:0 12px;}
+      .btn.ghost:hover{background:rgba(255,255,255,.06)}
 
-      .status{
-        min-height:38px; padding:10px 14px; border-radius:12px; font-weight:600; letter-spacing:.2px;
-        background:rgba(255,255,255,.05); border:1px solid var(--card-stroke); color:var(--subtext);
-      }
+      .status{min-height:38px; padding:10px 14px; border-radius:12px; font-weight:600; letter-spacing:.2px; background:rgba(255,255,255,.05); border:1px solid var(--card-stroke); color:var(--subtext);}
       .status.win{color:#0f1; background:rgba(0,255,140,.08); border-color:rgba(0,255,140,.25)}
-      .status.lose{color:#ff658b; background:rgba(255,101,139,.06); border-color:rgba(255,101,139,.22)}
+      .status.lose{color:var(--danger); background:rgba(255,101,139,.06); border-color:rgba(255,101,139,.22)}
 
       .hint{font-size:12px; color:var(--subtext); text-align:center}
 
-      /* Confetti */
       .confetti{position:fixed; inset:0; pointer-events:none; overflow:hidden}
       .confetti span{position:absolute; width:10px; height:14px; border-radius:2px; opacity:0; animation:fall linear forwards;}
       @keyframes fall{to{transform:translateY(110vh) rotate(540deg); opacity:0}}
 
-      /* Accessibility / Reduced motion */
-      @media (prefers-reduced-motion: reduce){
-        *{animation:none !important; transition:none !important}
-      }
+      .betctl{display:flex; align-items:center; gap:10px; background:rgba(255,255,255,.05); border:1px solid var(--card-stroke); padding:6px 10px; border-radius:12px}
+      .bet{width:84px; height:40px; background:transparent; border:none; color:var(--text); font-weight:700; text-align:center; outline:none}
+      .pill{padding:10px 14px; border-radius:999px; background:linear-gradient(135deg, rgba(124,92,255,.18), rgba(36,209,255,.18)); border:1px solid var(--card-stroke); font-weight:700}
 
-      /* Responsive */
+      .quickbets{display:flex; flex-wrap:wrap; gap:8px; justify-content:center;}
+      .qb{padding:8px 14px; border-radius:12px; border:1px solid var(--card-stroke); background:rgba(255,255,255,.05); cursor:pointer; font-weight:600; color:white;}
+      .qb:hover{background:rgba(255,255,255,.12)}
+      .qb.active{background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#0b0f1a;}
+
+      /* Shop */
+      .shop{width:100%; margin-top:10px;}
+      .shopTitle{font-weight:800; letter-spacing:.2px; font-size:14px; color:var(--subtext); margin:6px 0 8px; text-align:center}
+      .perks{display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:10px;}
+      .perk{display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; border-radius:14px; border:1px solid var(--card-stroke); background:rgba(255,255,255,.05)}
+      .perk .meta{display:flex; flex-direction:column}
+      .perk .name{font-weight:700}
+      .perk .desc{font-size:12px; color:var(--subtext)}
+      .perk .cost{font-weight:800}
+      .perk.owned{border-color:rgba(32,211,125,.45); background:rgba(32,211,125,.12)}
+      .perk.owned .name{color:var(--success)}
+      .perk .buy{height:36px; padding:0 12px; border-radius:10px}
+      .perk.owned .buy{display:none}
+
+      .overlay{position:fixed; inset:0; display:none; place-items:center; background:linear-gradient(180deg, rgba(15,16,32,.75), rgba(11,18,43,.88)); backdrop-filter:blur(8px); z-index:50}
+      .overlay.show{display:grid}
+      .dialog{background:var(--card); border:1px solid var(--card-stroke); border-radius:24px; padding:28px 24px; text-align:center; box-shadow:var(--shadow); max-width:460px}
+      .dialog h1{margin:0 0 8px 0; font-size:clamp(28px,5vw,40px); letter-spacing:.5px}
+      .dialog p{margin:0 0 16px 0; color:var(--subtext)}
+      .stack{display:flex; gap:12px; justify-content:center}
+
+      @media (prefers-reduced-motion: reduce){ *{animation:none !important; transition:none !important} }
       @media (max-width:520px){
         .reels{grid-template-columns:repeat(3, min(28vw, 104px));}
         .reel{width:min(28vw,104px); height:min(28vw,104px); font-size:clamp(38px, 10vw, 56px)}
@@ -107,17 +105,15 @@
   <body>
     <div class="wrap">
       <div class="header">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <div class="title">Fruktplukker</div>
-            <div class="subtitle">Match 3 fruits — win the glow ✨</div>
-          </div>
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div class="title">Fruktplukker</div>
+          <div class="subtitle">Match 3 fruits — win the glow ✨</div>
         </div>
       </div>
 
       <div class="card">
-        <div class="game" role="application" aria-label="Fruit slot game">
+        <div class="game">
           <div class="reels" aria-live="polite" aria-atomic="true">
             <div class="reel" id="r1"><span class="cell">🍎</span><div class="gloss"></div></div>
             <div class="reel" id="r2"><span class="cell">🍌</span><div class="gloss"></div></div>
@@ -126,7 +122,61 @@
 
           <div class="controls">
             <button id="playBtn" class="btn" aria-label="Play (Space)">Play</button>
+            <div class="betctl" aria-label="Bet controls">
+              <button id="betMinus" class="btn ghost" aria-label="Decrease bet">−</button>
+              <input id="betInput" class="bet" type="number" min="1" step="1" value="10" aria-label="Bet amount" />
+              <button id="betPlus" class="btn ghost" aria-label="Increase bet">+</button>
+            </div>
+            <div class="pill" id="balance">Balance: $100</div>
             <div id="status" class="status" role="status" aria-live="polite">Press <b>Play</b> or hit <b>Space</b>.</div>
+          </div>
+
+          <div class="quickbets" aria-label="Quick bets">
+            <button class="qb" data-val="1">$1</button>
+            <button class="qb" data-val="5">$5</button>
+            <button class="qb" data-val="10">$10</button>
+            <button class="qb" data-val="20">$20</button>
+            <button class="qb" data-val="50">$50</button>
+            <button class="qb" data-val="100">$100</button>
+          </div>
+
+          <!-- SHOP -->
+          <div class="shop">
+            <div class="shopTitle">Upgrades — increase win chance</div>
+            <div class="perks">
+              <div class="perk" data-tier="1" data-mult="1.25" data-cost="1000">
+                <div class="meta">
+                  <span class="name">Lucky 🍀 I</span>
+                  <span class="desc">1.25× win chance</span>
+                </div>
+                <span class="cost">$1000</span>
+                <button class="btn buy">Buy</button>
+              </div>
+              <div class="perk" data-tier="2" data-mult="1.5" data-cost="2000">
+                <div class="meta">
+                  <span class="name">Lucky 🍀 II</span>
+                  <span class="desc">1.5× win chance</span>
+                </div>
+                <span class="cost">$2000</span>
+                <button class="btn buy">Buy</button>
+              </div>
+              <div class="perk" data-tier="3" data-mult="1.75" data-cost="3000">
+                <div class="meta">
+                  <span class="name">Lucky 🍀 III</span>
+                  <span class="desc">1.75× win chance</span>
+                </div>
+                <span class="cost">$3000</span>
+                <button class="btn buy">Buy</button>
+              </div>
+              <div class="perk" data-tier="4" data-mult="2" data-cost="5000">
+                <div class="meta">
+                  <span class="name">Lucky 🍀 IV</span>
+                  <span class="desc">2× win chance</span>
+                </div>
+                <span class="cost">$5000</span>
+                <button class="btn buy">Buy</button>
+              </div>
+            </div>
           </div>
 
           <div class="hint">Tip: match all three fruits to win. (Enter/Space to play)</div>
@@ -136,6 +186,236 @@
 
     <div id="confetti" class="confetti" aria-hidden="true"></div>
 
-    <script src="js/fruktplukker.js"></script>
+    <div id="overlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="overTitle" aria-describedby="overDesc">
+      <div class="dialog">
+        <h1 id="overTitle">Game over</h1>
+        <p id="overDesc">Your balance reached $0. Start a new game?</p>
+        <div class="stack">
+          <button id="newGame" class="btn" autofocus>New Game</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const fruits = ["🍎","🍌","🍒","🍇","🍉"];
+      const reelsEl = [document.getElementById('r1'), document.getElementById('r2'), document.getElementById('r3')];
+      const statusEl = document.getElementById('status');
+      const btn = document.getElementById('playBtn');
+      const confettiEl = document.getElementById('confetti');
+      const overlayEl = document.getElementById('overlay');
+      const newGameBtn = document.getElementById('newGame');
+      const balanceEl = document.getElementById('balance');
+      const betInput = document.getElementById('betInput');
+      const betMinus = document.getElementById('betMinus');
+      const betPlus = document.getElementById('betPlus');
+      const quickbetBtns = document.querySelectorAll('.quickbets .qb');
+
+      // Shop elements
+      const perkEls = Array.from(document.querySelectorAll('.perk'));
+
+      let balance = 100;       // starting money
+      let bet = 10;            // default bet
+      const WIN_MULTIPLIER = 20; // payout on triple
+      const BASE_WIN_PROB = 1/25; // ~4% baseline
+
+      // Upgrade state
+      let ownedTier = 0;       // 0..4
+      let winMult = 1;         // 1, 1.25, 1.5, 1.75, 2
+
+      function dollars(n){ return `$${n}`; }
+
+      function updateUI(){
+        // clamp bet to [1..balance]
+        if (bet > balance) bet = balance > 0 ? balance : 1;
+        if (bet < 1) bet = 1;
+        balanceEl.textContent = `Balance: ${dollars(balance)}`;
+        betInput.value = bet;
+        btn.disabled = bet < 1 || bet > balance;
+
+        quickbetBtns.forEach(b => b.classList.toggle('active', Number(b.dataset.val) === bet));
+
+        // shop visuals
+        perkEls.forEach(el=>{
+          const tier = Number(el.dataset.tier);
+          if (tier <= ownedTier){
+            el.classList.add('owned');      // green highlight
+          } else {
+            el.classList.remove('owned');
+          }
+        });
+      }
+
+      function randomFruit(){ return fruits[Math.floor(Math.random()*fruits.length)]; }
+
+      function setReel(reelEl, emoji){
+        reelEl.querySelector('.cell')?.remove();
+        const s = document.createElement('span');
+        s.className = 'cell';
+        s.textContent = emoji;
+        reelEl.appendChild(s);
+        reelEl.appendChild(reelEl.querySelector('.gloss') || Object.assign(document.createElement('div'),{className:'gloss'}));
+        reelEl.classList.remove('spin'); void reelEl.offsetWidth; reelEl.classList.add('spin');
+      }
+
+      function spinOnce(){
+        if (bet > balance || bet < 1){
+          statusEl.className = 'status';
+          statusEl.textContent = 'Invalid bet.';
+          updateUI();
+          return;
+        }
+        btn.disabled = true;
+        statusEl.className = 'status';
+        statusEl.textContent = `Betting ${dollars(bet)}…`;
+
+        // Decide win using biased probability based on upgrades
+        const effectiveProb = Math.min(1, BASE_WIN_PROB * winMult);
+        const forceWin = Math.random() < effectiveProb;
+
+        const result = [];
+        const delay = [0, 120, 240];
+
+        // if forceWin: pick one fruit and set all three the same (staggered for animation)
+        if (forceWin){
+          const f = randomFruit();
+          reelsEl.forEach((reel,i)=>{
+            setTimeout(()=>{ setReel(reel, f); result[i]=f; if(i===2){ setTimeout(()=> finish(result,true), 60);} }, delay[i]);
+          });
+        } else {
+          reelsEl.forEach((reel, i)=>{
+            setTimeout(()=>{
+              const f = randomFruit();
+              setReel(reel, f);
+              result[i] = f;
+              if(i===2){ setTimeout(()=> finish(result,false), 60); }
+            }, delay[i]);
+          });
+        }
+      }
+
+      function finish(result, forced){
+        const naturalWin = result[0]===result[1] && result[1]===result[2];
+        const win = forced || naturalWin;
+
+        if(win){
+          const prize = bet * WIN_MULTIPLIER;
+          balance += prize;
+          statusEl.className = 'status win';
+          statusEl.textContent = `You won ${dollars(prize)}! 🎉 (Chance x${winMult})`;
+          burstConfetti();
+        } else {
+          balance -= bet;
+          statusEl.className = 'status lose';
+          statusEl.textContent = `You lost ${dollars(bet)}. 😢`;
+        }
+
+        if(balance <= 0){
+          balance = 0;
+          updateUI();
+          gameOver();
+          return;
+        }
+        btn.disabled = false;
+        updateUI();
+      }
+
+      function gameOver(){
+        overlayEl.classList.add('show');
+        btn.disabled = true;
+      }
+
+      function resetGame(){
+        balance = 100;
+        bet = Math.min(10, balance);
+        ownedTier = 0;
+        winMult = 1;
+        // clear owned visuals
+        perkEls.forEach(el=> el.classList.remove('owned'));
+        overlayEl.classList.remove('show');
+        statusEl.className = 'status';
+        statusEl.textContent = 'New game — good luck!';
+        btn.disabled = false;
+        updateUI();
+      }
+
+      function burstConfetti(){
+        const pieces = 26;
+        for(let i=0;i<pieces;i++){
+          const sp = document.createElement('span');
+          const left = Math.random()*100;
+          const dur = 800 + Math.random()*900;
+          const size = 8 + Math.random()*10;
+          sp.style.left = left+"vw";
+          sp.style.top = "-20px";
+          sp.style.width = size+"px";
+          sp.style.height = (size*1.3)+"px";
+          sp.style.background = `linear-gradient(135deg, hsl(${Math.random()*360} 95% 62%), hsl(${Math.random()*360} 95% 72%))`;
+          sp.style.transform = `translateY(0) rotate(${Math.random()*180}deg)`;
+          sp.style.animationDuration = dur+"ms";
+          sp.style.opacity = 1;
+          confettiEl.appendChild(sp);
+          setTimeout(()=> sp.remove(), dur+200);
+        }
+      }
+
+      // Buy logic
+      perkEls.forEach(el=>{
+        const buyBtn = el.querySelector('.buy');
+        buyBtn.addEventListener('click', ()=>{
+          const tier = Number(el.dataset.tier);
+          const cost = Number(el.dataset.cost);
+          const mult = Number(el.dataset.mult);
+
+          if (tier <= ownedTier){
+            statusEl.className='status';
+            statusEl.textContent='Already owned.';
+            return;
+          }
+          if (balance < cost){
+            statusEl.className='status lose';
+            statusEl.textContent=`Not enough funds. Need ${dollars(cost)}.`;
+            return;
+          }
+          // purchase
+          balance -= cost;
+          ownedTier = tier;
+          winMult = mult;
+          el.classList.add('owned');
+          statusEl.className='status win';
+          statusEl.textContent=`Purchased ${el.querySelector('.name').textContent} — Chance x${winMult}`;
+          updateUI();
+        });
+      });
+
+      // Events
+      btn.addEventListener('click', spinOnce);
+      window.addEventListener('keydown', (e)=>{
+        if((e.code==='Space' || e.code==='Enter') && !btn.disabled && !overlayEl.classList.contains('show')){
+          e.preventDefault(); spinOnce();
+        }
+        if(e.code==='Escape' && overlayEl.classList.contains('show')){
+          e.preventDefault(); resetGame();
+        }
+      });
+      newGameBtn.addEventListener('click', resetGame);
+
+      betMinus.addEventListener('click', ()=>{ bet = Math.max(1, bet-1); updateUI(); });
+      betPlus.addEventListener('click', ()=>{ bet = Math.min(balance, bet+1); updateUI(); });
+      betInput.addEventListener('input', ()=>{
+        const v = Math.floor(Number(betInput.value)||0);
+        bet = Math.min(Math.max(1, v), balance || 1);
+        updateUI();
+      });
+      quickbetBtns.forEach(b=>{
+        b.addEventListener('click', ()=>{
+          const v = Number(b.dataset.val);
+          bet = Math.min(Math.max(1, v), balance || 1);
+          updateUI();
+        });
+      });
+
+      // initial render
+      updateUI();
+    </script>
   </body>
 </html>
