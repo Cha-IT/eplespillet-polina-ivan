@@ -1,7 +1,7 @@
 const fruits = ["🍎", "🍌", "🍒", "🍇", "🍉"];
 // Først, opprett en knapp for å generere fruktene
 const button = document.createElement("button");
-button.innerHTML = "Spinn!";
+button.innerHTML = "Play";
 document.body.appendChild(button);
 
 const squares = [];
@@ -36,10 +36,10 @@ function spin() {
         result.push(fruit);
     }
     if (result[0] === result[1] && result[1] === result[2]) {
-        resultDisplay.innerHTML = "Du vant! 🎉";
+        resultDisplay.innerHTML = "You won! 🎉";
         resultDisplay.style.color = "green";
     } else {
-        resultDisplay.innerHTML = "Du tapte! 😢";
+        resultDisplay.innerHTML = "You lost! 😢";
         resultDisplay.style.color = "red";
     }
 }
