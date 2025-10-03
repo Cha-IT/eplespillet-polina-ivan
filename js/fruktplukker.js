@@ -1,35 +1,47 @@
+const fruits = ["🍎", "🍌", "🍒", "🍇", "🍉"];
 // Først, opprett en knapp for å generere fruktene
 const button = document.createElement("button");
-button.innerHTML = "Generer frukt";
+button.innerHTML = "Spinn!";
 document.body.appendChild(button);
 
-// Legg til et element for å vise antall epler
-const counterDisplay = document.createElement("div");
-counterDisplay.style.fontSize = "1.5em";
-counterDisplay.style.margin = "10px";
-counterDisplay.innerHTML = "Antall epler: 0";
-document.body.appendChild(counterDisplay);
+const squares = [];
+for (let i = 0; i < 3; i++) {
+    const square = document.createElement("div");
+    square.style.display = "inline-block";
+    square.style.fontSize = "3em";
+    square.style.width = "80px";
+    square.style.height = "80px";
+    square.style.margin = "10px";
+    square.style.textAlign = "center";
+    square.style.verticalAlign = "middle";
+    square.style.border = "2px solid #333";
+    square.style.background = "#fff";
+    squares.push(square);
+    document.body.appendChild(square);
+}
 
-let appleCount = 0;
+const resultDisplay = document.createElement("div");
+resultDisplay.style.fontSize = "1.5em";
+resultDisplay.style.marginTop = "20px";
+document.body.appendChild(resultDisplay);
 
 // Når knappen klikkes, generer en ny frukt
-button.addEventListener("click", nyFrukt)
+button.addEventListener("click", spin);
 
-function nyFrukt() 
-{
-    const frukt = document.createElement("div");
-    frukt.innerHTML = "🍎"; // Du kan endre dette til forskjellige frukt emojis
-    frukt.style.fontSize = "2em";
-    frukt.style.position = "absolute";
-    frukt.style.left = Math.random() * window.innerWidth + 'px'; // Plasser frukten på en tilfeldig x-posisjon
-    frukt.style.top = Math.random() * window.innerHeight + 'px'; // Plasser frukten på en tilfeldig y-posisjon
-    document.body.appendChild(frukt);
-
-    appleCount++;
-    counterDisplay.innerHTML = "Antall epler: " + appleCount;
- 
-    // Når frukten klikkes, fjern den fra skjermen
-    frukt.addEventListener("click", fjernFrukt)
+function spin() {
+    const result = [];
+    for (let i = 0; i < 3; i++) {
+        const fruit = fruits[Math.floor(Math.random() * fruits.length)];
+        squares[i].innerHTML = fruit;
+        result.push(fruit);
+    }
+    if (result[0] === result[1] && result[1] === result[2]) {
+        resultDisplay.innerHTML = "Du vant! 🎉";
+        resultDisplay.style.color = "green";
+    } else {
+        resultDisplay.innerHTML = "Du tapte! 😢";
+        resultDisplay.style.color = "red";
+    }
 }
 
 /* Legg merke til bokstaven e inne i parentesen på linja under. 
@@ -37,6 +49,5 @@ Dette betyr at vi sender informasjon om hendelsen (event) som trigget funksjonen
 function fjernFrukt(e)
 {
     document.body.removeChild(e.target); 
-    appleCount--; // Decrement the count
-    counterDisplay.innerHTML = "Antall epler: " + appleCount;
+    //e.target er det elementet som trigget hendelsen, det vil si elementet vi klikket på for å aktivere funksjonen.
 }
